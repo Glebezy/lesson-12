@@ -8,6 +8,8 @@ BASE_URL = 'https://demoqa.com/automation-practice-form'
 class RegistrationPage:
     def open(self):
         browser.open(BASE_URL)
+        browser.driver.execute_script("$('#fixedban').remove()")
+        browser.driver.execute_script("$('footer').remove()")
 
     def fill_first_name(self, first_name):
         browser.element('[id="firstName"]').clear().type(first_name)
