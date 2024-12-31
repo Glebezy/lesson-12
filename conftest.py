@@ -1,16 +1,10 @@
 import os
 
 import pytest
-from selene import browser
+from selene import Browser, Config
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from utils import attach
-from dotenv import load_dotenv
-
-
-@pytest.fixture(scope="session", autouse=True)
-def load_env():
-    load_dotenv()
 
 
 @pytest.fixture(scope="function")
@@ -24,25 +18,18 @@ def setup_browser(request):
             "enableVideo": True
         }
     }
-
     options.capabilities.update(selenoid_capabilities)
-    login = os.getenv("SELENOID_LOGIN")
-    password = os.getenv("SELENOID_PASS")
-    url = os.getenv("SELENOID_URL")
     driver = webdriver.Remote(
-        command_executor=f"https://{login}:{password}@{url}/wd/hub",
-        options=options)
-    browser.config.driver = driver
+        command_executor=f"https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        options=options
+    )
 
-    browser.config.driver_name = "chrome"
-    browser.config.window_height = 1080
-    browser.config.window_width = 1920
+    browser = Browser(Config(driver))
+    yield browser
 
-    yield
-
-    attach.add_html(browser)
     attach.add_screenshot(browser)
     attach.add_logs(browser)
+    attach.add_html(browser)
     attach.add_video(browser)
 
     browser.quit()
