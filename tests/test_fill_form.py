@@ -24,23 +24,10 @@ def user():
 @allure.link("https://demoqa.com/", name="Website")
 @allure.issue("ISSUE-123")
 @allure.testcase("TMS-457")
-class TestFillForm:
-    def test_success_fill_form(self, setup_browser):
-        steps = Steps()
-        steps.open_form()
-        steps.fill_form()
-        steps.check_registration()
-
-
-class Steps:
-    @allure.step("Open Repo link")
-    def open_form(self, registration_page):
+def test_success_fill_form(setup_browser, registration_page):
+    with allure.step("Open browser"):
         registration_page.open()
-
-    @allure.step("Fill form")
-    def fill_form(self, registration_page, user):
+    with allure.step("Fill form"):
         registration_page.register(user)
-
-    @allure.step("Check success registration")
-    def check_registration(self, registration_page, user):
+    with allure.step("Check registration"):
         registration_page.should_have_registered(user)
