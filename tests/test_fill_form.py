@@ -25,20 +25,22 @@ def user():
 @allure.issue("ISSUE-123")
 @allure.testcase("TMS-457")
 class TestFillForm:
-    def test_success_fill_form(self, registration_page, user):
+    def test_success_fill_form(self, setup_browser):
+        steps = Steps()
+        steps.open_form()
+        steps.fill_form()
+        steps.check_registration()
+
+
+class Steps:
+    @allure.step("Open Repo link")
+    def open_form(self, registration_page):
         registration_page.open()
 
-        registration_page.fill_first_name(user.first_name)
-        registration_page.fill_last_name(user.last_name)
-        registration_page.fill_email(user.email)
-        registration_page.choose_gender(user.gender)
-        registration_page.fill_phone(user.phone_number)
-        registration_page.choose_date_of_birth(user.date_of_birth)
-        registration_page.fill_subjects(user.subjects)
-        registration_page.choose_hobbies(user.hobbies)
-        registration_page.upload_picture(user.picture)
-        registration_page.fill_address(user.address)
+    @allure.step("Fill form")
+    def fill_form(self, registration_page, user):
+        registration_page.register(user)
 
-        registration_page.submit()
-
+    @allure.step("Check success registration")
+    def check_registration(self, registration_page, user):
         registration_page.should_have_registered(user)
