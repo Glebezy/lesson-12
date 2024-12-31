@@ -24,7 +24,7 @@ def user():
 @allure.link("https://demoqa.com/", name="Website")
 @allure.issue("ISSUE-123")
 @allure.testcase("TMS-457")
-def test_success_fill_form(setup_browser, registration_page):
+def test_success_fill_form(setup_browser, registration_page, user):
     with allure.step("Open browser"):
         registration_page.open()
     with allure.step("Fill form"):
