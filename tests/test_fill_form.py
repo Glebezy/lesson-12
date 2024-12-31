@@ -25,7 +25,7 @@ def user():
 @allure.issue("ISSUE-123")
 @allure.testcase("TMS-457")
 class TestFillForm:
-    def test_success_fill_form(self):
+    def test_success_fill_form(self, setup_browser):
         steps = Steps()
         steps.open_form()
         steps.fill_form()
