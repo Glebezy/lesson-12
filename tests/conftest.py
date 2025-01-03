@@ -34,11 +34,8 @@ def setup_browser(request):
     options.page_load_strategy = 'eager'
 
     driver = webdriver.Remote(
-        command_executor=f"https://{selenoid_login}:{selenoid_password}@{selenoid_url}",
+        command_executor=f"https://{selenoid_login}:{selenoid_password}@{selenoid_url}/wd/hub",
         options=options)
-
-    driver.execute_script("$('#fixedban').remove()")
-    driver.execute_script("$('footer').remove()")
 
     browser.config.driver = driver
 
